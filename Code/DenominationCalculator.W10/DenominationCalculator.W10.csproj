@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{0C94CBF3-87F0-40E0-A90B-95A4DA31065C}</ProjectGuid>
+    <ProjectGuid>{65F885F2-E1D5-42FF-8577-C2640DA2A0CE}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DenominationCalculator</RootNamespace>
@@ -164,8 +164,8 @@
     <Content Include="Layouts\List\Breakpoints.Medium.Photo.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\DataImages\FlipSquareTile.png" />
-    <Content Include="Assets\DataImages\FlipWideTile.png" />
+    <Content Include="Assets\DataImages\IconicSquareTile.png" />
+    <Content Include="Assets\DataImages\IconicWideTile.png" />
     <Content Include="Assets\DataImages\ModuleLogo.png" />
     <Content Include="Assets\DataImages\ModuleLogo-1.png" />
     <Content Include="Assets\DataImages\ModuleLogo-2.png" />

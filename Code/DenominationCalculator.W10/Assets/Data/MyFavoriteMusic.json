@@ -4,41 +4,41 @@
     "Title": "DJ Nano",
     "Icon": "/Assets/DataImages/ModuleLogo.png",
     "Target": "https://music.xbox.com/artist/dj-nano/az.1E990900-0200-11DB-89CA-0019B92A3933",
-    "_id": "80d4bc37-d2d4-407a-b776-d17cc0b9f459"
+    "_id": "bbd691ff-5545-4c60-b052-dbc4e89d52ee"
   },
   {
     "MenuType": "DeepLink",
     "Title": "Jamestown Revival",
     "Icon": "/Assets/DataImages/ModuleLogo-1.png",
     "Target": "https://music.xbox.com/artist/jamestown-revival/az.B6E01900-0200-11DB-89CA-0019B92A3933",
-    "_id": "4cb8d9d7-d2dd-4b39-8c47-40faee13cc28"
+    "_id": "ade07796-542a-4fd1-8748-7efdf213b3b0"
   },
   {
     "MenuType": "DeepLink",
     "Title": "Sonnöv",
     "Icon": "/Assets/DataImages/ModuleLogo-2.png",
     "Target": "https://music.xbox.com/artist/sonnov/az.D7095900-0200-11DB-89CA-0019B92A3933",
-    "_id": "490a26a2-f997-409e-acd7-335c54e8175f"
+    "_id": "1f4f910b-66d1-4561-8515-20ad22ed0fe1"
   },
   {
     "MenuType": "DeepLink",
     "Title": "StandStill",
     "Icon": "/Assets/DataImages/ModuleLogo-4.png",
     "Target": "https://music.xbox.com/artist/standstill/az.CAB20000-0200-11DB-89CA-0019B92A3933",
-    "_id": "71b95529-22c6-42cd-a0a3-a2607617e7b1"
+    "_id": "41152751-6dd6-4766-ab28-7a2f796daa9e"
   },
   {
     "MenuType": "DeepLink",
     "Title": "Havalina",
     "Icon": "/Assets/DataImages/ModuleLogo-3.png",
     "Target": "https://music.xbox.com/artist/havalina-rail-co/az.8A571300-0200-11DB-89CA-0019B92A3933",
-    "_id": "9d20c397-5320-436b-a08f-379873c0c6c3"
+    "_id": "56be0986-3e7e-4671-b417-64172cec0159"
   },
   {
     "MenuType": "DeepLink",
     "Title": "V3ctors",
     "Icon": "/Assets/DataImages/ModuleLogo-5.png",
     "Target": "https://music.xbox.com/artist/v3ctors/az.301B5200-0200-11DB-89CA-0019B92A3933",
-    "_id": "cc542e80-74a7-451d-8340-5d510f678b64"
+    "_id": "55218b66-b081-48d6-bc53-f705291ccd12"
   }
 ]

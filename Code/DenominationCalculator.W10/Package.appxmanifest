@@ -6,7 +6,7 @@
   xmlns:appstudio="http://schemas.microsoft.com/developer/appx/2015/appstudio" 
   IgnorableNamespaces="uap mp appstudio">
 
-    <Identity Name="8b72581a-6048-4e4e-98f0-55ce5f614abd" Publisher="CN=AppStudio" Version="1.0.1.0" />
+    <Identity Name="fa8306ef-0d2d-4ffc-b07f-cb0fb83b9281" Publisher="CN=AppStudio" Version="1.0.2.0" />
 
     <mp:PhoneIdentity PhoneProductId="3ec25e22-9e0d-4139-82a2-d381535a4105" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

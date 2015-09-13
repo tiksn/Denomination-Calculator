@@ -125,7 +125,7 @@ namespace DenominationCalculator
             var init = ApplicationData.Current.LocalSettings.Values[LocalSettingNames.TilesInitialized];
             if (init == null || (init is bool && !(bool)init))
             {
-                TileServices.CreateFlipTile(@"My App", @"All About ME");
+                TileServices.CreateIconicTile(@"", @"", @"");
 
                 ApplicationData.Current.LocalSettings.Values[LocalSettingNames.TilesInitialized] = true;
             }
