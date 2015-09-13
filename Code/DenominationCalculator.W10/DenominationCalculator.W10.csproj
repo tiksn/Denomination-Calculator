@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{D29057A1-78F2-4980-AD8C-3C2B3AF5B746}</ProjectGuid>
+    <ProjectGuid>{0C94CBF3-87F0-40E0-A90B-95A4DA31065C}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DenominationCalculator</RootNamespace>
