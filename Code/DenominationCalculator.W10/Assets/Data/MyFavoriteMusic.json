@@ -1,0 +1,44 @@
+[
+  {
+    "MenuType": "DeepLink",
+    "Title": "DJ Nano",
+    "Icon": "/Assets/DataImages/ModuleLogo.png",
+    "Target": "https://music.xbox.com/artist/dj-nano/az.1E990900-0200-11DB-89CA-0019B92A3933",
+    "_id": "d7e19c85-baa9-4634-b36b-4ff7a096ce5d"
+  },
+  {
+    "MenuType": "DeepLink",
+    "Title": "Jamestown Revival",
+    "Icon": "/Assets/DataImages/ModuleLogo-1.png",
+    "Target": "https://music.xbox.com/artist/jamestown-revival/az.B6E01900-0200-11DB-89CA-0019B92A3933",
+    "_id": "f1166117-d45e-48f0-9943-b03c28ab4a69"
+  },
+  {
+    "MenuType": "DeepLink",
+    "Title": "Sonnöv",
+    "Icon": "/Assets/DataImages/ModuleLogo-2.png",
+    "Target": "https://music.xbox.com/artist/sonnov/az.D7095900-0200-11DB-89CA-0019B92A3933",
+    "_id": "00d47d22-057f-4777-a1e2-7dca11c1348b"
+  },
+  {
+    "MenuType": "DeepLink",
+    "Title": "StandStill",
+    "Icon": "/Assets/DataImages/ModuleLogo-4.png",
+    "Target": "https://music.xbox.com/artist/standstill/az.CAB20000-0200-11DB-89CA-0019B92A3933",
+    "_id": "b8f80bd9-b43f-40b8-b8b8-26e31f97a558"
+  },
+  {
+    "MenuType": "DeepLink",
+    "Title": "Havalina",
+    "Icon": "/Assets/DataImages/ModuleLogo-3.png",
+    "Target": "https://music.xbox.com/artist/havalina-rail-co/az.8A571300-0200-11DB-89CA-0019B92A3933",
+    "_id": "11c18825-86e3-4f46-9cd2-6270947c297f"
+  },
+  {
+    "MenuType": "DeepLink",
+    "Title": "V3ctors",
+    "Icon": "/Assets/DataImages/ModuleLogo-5.png",
+    "Target": "https://music.xbox.com/artist/v3ctors/az.301B5200-0200-11DB-89CA-0019B92A3933",
+    "_id": "22a84907-2501-45ca-b1dd-857146155aaa"
+  }
+]

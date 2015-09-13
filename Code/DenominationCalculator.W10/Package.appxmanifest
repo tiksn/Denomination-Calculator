@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:appstudio="http://schemas.microsoft.com/developer/appx/2015/appstudio" 
+  IgnorableNamespaces="uap mp appstudio">
+
+    <Identity Name="e0240cde-3387-4f8f-a5a3-5aff0eab8ae0" Publisher="CN=AppStudio" Version="1.0.0.0" />
+
+    <mp:PhoneIdentity PhoneProductId="3ec25e22-9e0d-4139-82a2-d381535a4105" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+    <Properties>
+        <DisplayName>AppStudio App</DisplayName>
+        <PublisherDisplayName>AppStudio</PublisherDisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+    </Properties>
+
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.10240.0" MaxVersionTested="10.0.10240.0" />
+    </Dependencies>
+
+    <Resources>
+        <Resource Language="x-generate"/>
+    </Resources>
+
+    <Applications>
+        <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="DenominationCalculator.App">
+            <uap:VisualElements DisplayName="Denomination Calculator"
+              Square150x150Logo="Assets\Square150x150Logo.png"
+              Square44x44Logo="Assets\Square44x44Logo.png"
+              Description="This is a four section personal app to share with those you are close with who want to keep up with you."
+              BackgroundColor="#27282c">
+                <uap:SplashScreen Image="Assets\SplashScreen.png" />
+                <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+                    <uap:ShowNameOnTiles>
+                        <uap:ShowOn Tile="square150x150Logo"/>
+                    </uap:ShowNameOnTiles>
+                </uap:DefaultTile>
+            </uap:VisualElements>
+        </Application>
+    </Applications>
+
+    <Capabilities>
+        <Capability Name="internetClient" />
+    </Capabilities>
+
+    <appstudio:Metadata>
+        <appstudio:Item Name="appId" Value="3ec25e22-9e0d-4139-82a2-d381535a4105" />
+        <appstudio:Item Name="model" Version="1.11" />
+        <appstudio:Item Name="formula" Value="Win10" Version="1.11.0903.1" />
+        <appstudio:Item DataSource="Flickr" Version="0.1.1"/>
+        <appstudio:Item DataSource="Rss" Version="0.1.1"/>
+        <appstudio:Item DataSource="Menu" Version="0.1.1"/>
+        <appstudio:Item DataSource="Html" Version="0.1.1"/>
+    </appstudio:Metadata>
+</Package>
