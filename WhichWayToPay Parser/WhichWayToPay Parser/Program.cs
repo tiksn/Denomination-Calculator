@@ -122,7 +122,9 @@ namespace WhichWayToPay_Parser
 			foreach (var notePart in noteParts)
 			{
 				string noteString = notePart.Replace(",", "");
-				noteString = noteString.Replace("centimes", "");
+
+				noteString = noteString.Trim();
+				//noteString = noteString.Replace("centimes", "");
 
 				if (noteString.EndsWith("$"))
 				{
@@ -136,21 +138,9 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(0, noteString.Length - 1);
 				}
-				else if (noteString.StartsWith("�", StringComparison.OrdinalIgnoreCase))
+				else if (noteString.Length > 0 && (int)noteString[0] == 65533)
 				{
 					noteString = noteString.Substring(1);
-				}
-				else if (noteString.EndsWith("�", StringComparison.OrdinalIgnoreCase))
-				{
-					noteString = noteString.Substring(0, noteString.Length - 1);
-				}
-				else if (noteString.StartsWith(" �", StringComparison.OrdinalIgnoreCase))
-				{
-					noteString = noteString.Substring(1);
-				}
-				else if (noteString.EndsWith(" �", StringComparison.OrdinalIgnoreCase))
-				{
-					noteString = noteString.Substring(0, noteString.Length - 1);
 				}
 				else if (noteString.Contains("$"))
 				{
