@@ -66,9 +66,21 @@ namespace WhichWayToPay_Parser
 			var countryElement = node.ChildNodes[1];
 			result.CountryName = countryElement.InnerText;
 			result.CurrencyCode = node.ChildNodes[3].InnerText.Substring(1, 3);
-			result.CurrencyName = node.ChildNodes[9].InnerText;
 
-			var notes = node.ChildNodes[13].InnerText;
+			int currencyNameShift = 0;
+			int notesShift = 0;
+			int coinsShift = 0;
+
+			if (node.ChildNodes[9].InnerText == "CURRENCY: ")
+			{
+				currencyNameShift = 2;
+				notesShift = 2;
+				coinsShift = 2;
+			}
+
+			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText;
+
+			var notes = node.ChildNodes[13 + notesShift].InnerText;
 
 			bool startsWithNote = false;
 
@@ -84,13 +96,13 @@ namespace WhichWayToPay_Parser
 			if (result.CurrencyCode == "ALL")
 				notes = notes.Substring(3);
 
-			var notesParts = GetNotesOrCoins(notes);
+			var notesParts = GetNotesOrCoins(notes, result.CurrencyCode);
 
 			result.Notes.AddRange(notesParts);
 
 			if (startsWithNote)
 			{
-				var coins = node.ChildNodes[15].InnerText;
+				var coins = node.ChildNodes[15 + coinsShift].InnerText;
 
 				if (coins.StartsWith("COIN: "))
 				{
@@ -107,7 +119,7 @@ namespace WhichWayToPay_Parser
 			return result;
 		}
 
-		private static List<int> GetNotesOrCoins(string notesOrCoins)
+		private static List<int> GetNotesOrCoins(string notesOrCoins, string currencyCode)
 		{
 			var result = new List<int>();
 
@@ -145,6 +157,10 @@ namespace WhichWayToPay_Parser
 				else if (noteString.Contains("$"))
 				{
 					noteString = noteString.Substring(noteString.IndexOf("$") + 1);
+				}
+				else if (noteString.EndsWith(currencyCode, StringComparison.OrdinalIgnoreCase))
+				{
+					noteString = noteString.Substring(0, noteString.Length - currencyCode.Length);
 				}
 
 				result.Add(int.Parse(noteString));
