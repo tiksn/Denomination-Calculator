@@ -10,8 +10,8 @@ namespace WhichWayToPay_Parser
 	{
 		public Currency()
 		{
-			Notes = new List<int>();
-			Coins = new List<int>();
+			Notes = new List<double>();
+			Coins = new List<double>();
 		}
 
 		public string CountryName { get; set; }
@@ -20,8 +20,8 @@ namespace WhichWayToPay_Parser
 
 		public string CurrencyCode { get; set; }
 
-		public List<int> Notes { get; private set; }
+		public List<double> Notes { get; private set; }
 
-		public List<int> Coins { get; private set; }
+		public List<double> Coins { get; private set; }
 	}
 }

@@ -119,9 +119,11 @@ namespace WhichWayToPay_Parser
 			return result;
 		}
 
-		private static List<int> GetNotesOrCoins(string notesOrCoins, string currencyCode)
+		private static List<double> GetNotesOrCoins(string notesOrCoins, string currencyCode)
 		{
-			var result = new List<int>();
+			double multiplier = 1.0;
+
+			var result = new List<double>();
 
 			if (notesOrCoins.EndsWith("."))
 				notesOrCoins = notesOrCoins.Substring(0, notesOrCoins.Length - 1);
@@ -133,6 +135,7 @@ namespace WhichWayToPay_Parser
 
 			foreach (var notePart in noteParts)
 			{
+				double noteMultiplier = 1.0;
 				string noteString = notePart.Replace(",", "");
 
 				noteString = noteString.Trim();
@@ -163,7 +166,15 @@ namespace WhichWayToPay_Parser
 					noteString = noteString.Substring(0, noteString.Length - currencyCode.Length);
 				}
 
-				result.Add(int.Parse(noteString));
+				if (noteString.EndsWith("cents"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "cents".Length);
+				}
+
+				noteString = noteString.Trim();
+
+				result.Add(double.Parse(noteString) * multiplier * noteMultiplier);
 			}
 
 			return result;
