@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -77,6 +78,14 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
+			else if (
+				node.ChildNodes[11].InnerText == "Please note the CFA Franc is tied to the Euro.  Please be aware that only currency issued by the Bank of West African States (Banque des Etats de l'Afrique de l'Ouest ) is valid, and that currency issued by the the Bank of Central African States ( Banque des Etats de l'Afrique Centrale) IS NOT VALID." &&
+				node.ChildNodes[11].InnerText == "Please note this currency is tied to the US Dollar at a fixed rate of CI$1 = US$1.25")
+			{
+				currencyNameShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
+			}
 
 			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText;
 
@@ -96,7 +105,7 @@ namespace WhichWayToPay_Parser
 			if (result.CurrencyCode == "ALL")
 				notes = notes.Substring(3);
 
-			var notesParts = GetNotesOrCoins(notes, result.CurrencyCode);
+			var notesParts = GetNotesOrCoins(notes, result.CurrencyCode, currencyPageURL);
 
 			result.Notes.AddRange(notesParts);
 
@@ -119,7 +128,7 @@ namespace WhichWayToPay_Parser
 			return result;
 		}
 
-		private static List<double> GetNotesOrCoins(string notesOrCoins, string currencyCode)
+		private static List<double> GetNotesOrCoins(string notesOrCoins, string currencyCode, string currencyPageURL)
 		{
 			double multiplier = 1.0;
 
@@ -165,14 +174,49 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(0, noteString.Length - currencyCode.Length);
 				}
+				else if (noteString.StartsWith("p."))
+				{
+					noteString = noteString.Substring(2);
+				}
+				else if (noteString.StartsWith("Nu"))
+				{
+					noteString = noteString.Substring(2);
+				}
+				else if (noteString.StartsWith("Bs"))
+				{
+					noteString = noteString.Substring(2);
+				}
+				else if (noteString.StartsWith("KM"))
+				{
+					noteString = noteString.Substring(2);
+				}
+				else if (noteString.StartsWith("CR"))
+				{
+					noteString = noteString.Substring(2);
+				}
+				else if (noteString.StartsWith("P"))
+				{
+					noteString = noteString.Substring(1);
+				}
+				else if (noteString.StartsWith("CFA"))
+				{
+					noteString = noteString.Substring(3);
+				}
 
 				if (noteString.EndsWith("cents"))
 				{
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "cents".Length);
 				}
+				else if (noteString.EndsWith("50 pfenings"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "pfenings".Length);
+				}
 
 				noteString = noteString.Trim();
+
+				Debug.WriteLine(currencyPageURL);
 
 				result.Add(double.Parse(noteString) * multiplier * noteMultiplier);
 			}
