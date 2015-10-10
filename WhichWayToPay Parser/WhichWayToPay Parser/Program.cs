@@ -40,8 +40,13 @@ namespace WhichWayToPay_Parser
 
 			var node = document.DocumentNode.ChildNodes[3].ChildNodes[3].ChildNodes[1].ChildNodes[5].ChildNodes[1].ChildNodes[3].ChildNodes[1];
 
-			foreach (var currencyNode in node.SelectNodes("div/ul/li/a"))
+			var currencyNodes = node.SelectNodes("div/ul/li/a");
+			int counter = 0;
+
+			foreach (var currencyNode in currencyNodes)
 			{
+				counter++;
+				Console.Title = $"WhichWayToPay Parser { (int)(counter * 100d / currencyNodes.Count) }%";
 				string href = currencyNode.GetAttributeValue("href", string.Empty);
 
 				var country = ParseCurrencyPage(href);
@@ -84,13 +89,19 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
-			else if (node.ChildNodes[11].InnerText.StartsWith("Please note this currency is tied to the US Dollar at a fixed rate of CI$1 = US$1.25"))
+			else if(currencyPageURL == "http://www.whichwaytopay.com/Cayman-Islands-currency-Dollar-KYD.asp")
 			{
 				currencyNameShift = 0;
-				notesShift = 0;
-				coinsShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
 			}
-			else if(node.ChildNodes[11].InnerText.StartsWith("Please note this currency is tied to the US Dollar at a fixed rate of CI$1 = US$1.25"))
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Central-African-Repubic-currency-CFA-Franc-XAF.asp")
+			{
+				currencyNameShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
+			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Chad-currency-CFA-Franc-XAF.asp")
 			{
 				currencyNameShift = 0;
 				notesShift = 2;
