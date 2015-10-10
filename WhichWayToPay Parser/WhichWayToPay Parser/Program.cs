@@ -220,6 +220,10 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(2);
 				}
+				else if (noteString.StartsWith("kr"))
+				{
+					noteString = noteString.Substring(2);
+				}
 				else if (noteString.StartsWith("CR"))
 				{
 					noteString = noteString.Substring(2);
