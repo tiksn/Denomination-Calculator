@@ -49,6 +49,11 @@ namespace WhichWayToPay_Parser
 				Console.Title = $"WhichWayToPay Parser { (int)(counter * 100d / currencyNodes.Count) }%";
 				string href = currencyNode.GetAttributeValue("href", string.Empty);
 
+				if(href.StartsWith("http://www.whichwaytopay.com/Costa-Rican-currency-Col"))
+				{
+					href = "http://www.whichwaytopay.com/Costa-Rican-currency-Colón-CRC.asp";
+				}
+
 				var country = ParseCurrencyPage(href);
 
 				Console.WriteLine(JsonConvert.SerializeObject(country));
@@ -211,6 +216,10 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(2);
 				}
+				else if (noteString.StartsWith("Kn"))
+				{
+					noteString = noteString.Substring(2);
+				}
 				else if (noteString.StartsWith("CR"))
 				{
 					noteString = noteString.Substring(2);
@@ -222,6 +231,10 @@ namespace WhichWayToPay_Parser
 				else if (noteString.StartsWith("CFA"))
 				{
 					noteString = noteString.Substring(3);
+				}
+				else if(noteString.EndsWith("chiao/jiao"))
+				{
+					noteString = noteString.Substring(0, noteString.Length - "chiao/jiao".Length);
 				}
 
 				if (noteString.EndsWith("cents"))
