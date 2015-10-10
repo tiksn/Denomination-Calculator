@@ -236,6 +236,10 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(0, noteString.Length - "chiao/jiao".Length);
 				}
+				else if (noteString.EndsWith("Kc"))
+				{
+					noteString = noteString.Substring(0, noteString.Length - "Kc".Length);
+				}
 
 				if (noteString.EndsWith("cents"))
 				{
