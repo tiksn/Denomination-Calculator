@@ -139,20 +139,20 @@ namespace WhichWayToPay_Parser
 			else if (currencyPageURL == "http://www.whichwaytopay.com/Dominica-currency-East-Caribbean-Dollar-XCD.asp")
 			{
 				currencyNameShift = 0;
-				notesShift = 4;
-				coinsShift = 4;
-			}
-			else if (node.ChildNodes[13 + 4].InnerText.StartsWith("NOTE: "))
-			{
-				notesShift = 4;
-				coinsShift = 4;
+				notesShift = 2;
+				coinsShift = 2;
 			}
 			else if (node.ChildNodes[13 + 2].InnerText.StartsWith("NOTE: "))
 			{
 				notesShift = 2;
 				coinsShift = 2;
 			}
-
+			else if (node.ChildNodes[13 + 4].InnerText.StartsWith("NOTE: "))
+			{
+				notesShift = 4;
+				coinsShift = 4;
+			}
+			
 			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText;
 
 			var notes = node.ChildNodes[13 + notesShift].InnerText;
