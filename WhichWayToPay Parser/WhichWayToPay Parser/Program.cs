@@ -118,6 +118,12 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/El-Salvador-currency-Dollar-USD.asp")
+			{
+				currencyNameShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
+			}
 
 			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText;
 
@@ -277,10 +283,15 @@ namespace WhichWayToPay_Parser
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "cents".Length);
 				}
-				else if (noteString.EndsWith("50 pfenings"))
+				else if (noteString.EndsWith("pfenings"))
 				{
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "pfenings".Length);
+				}
+				else if(noteString.EndsWith("piastres"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "piastres".Length);
 				}
 
 				noteString = noteString.Trim();
