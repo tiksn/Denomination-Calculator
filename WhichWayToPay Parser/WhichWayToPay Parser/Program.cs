@@ -124,7 +124,12 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
-
+			else if (currencyPageURL == "http://www.whichwaytopay.com/French-Polynesia-currency-French-Pacific-Franc-XPF.asp")
+			{
+				currencyNameShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
+			}
 			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText;
 
 			var notes = node.ChildNodes[13 + notesShift].InnerText;
