@@ -56,7 +56,7 @@ namespace WhichWayToPay_Parser
 				else if(href.StartsWith("http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-C"))
 				{
 					href = "http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-Córdoba-NIO.asp";
-                }
+				}
 
 				var country = ParseCurrencyPage(href);
 
@@ -157,6 +157,12 @@ namespace WhichWayToPay_Parser
 				currencyNameShift = 0;
 				notesShift = 2;
 				coinsShift = 2;
+			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Paraguay-currency-Guarani-PYG.asp")
+			{
+				currencyNameShift = 0;
+				notesShift = -1;
+				coinsShift = -1;
 			}
 			else if (currencyPageURL == "http://www.whichwaytopay.com/Panama-currency-Balboa-PAB.asp")
 			{
@@ -323,7 +329,7 @@ namespace WhichWayToPay_Parser
 					noteString = noteString.Substring(0, noteString.Length - "dinars".Length);
 				}
 				
-                int prefixShift = 0;
+				int prefixShift = 0;
 
 				while (noteString.Length > prefixShift)
 				{
@@ -375,7 +381,7 @@ namespace WhichWayToPay_Parser
 					noteString = noteString.Substring(0, noteString.Length - "baiza".Length);
 				}
 				
-                noteString = noteString.Trim();
+				noteString = noteString.Trim();
 
 				if(noteString == "1/2")
 				{
