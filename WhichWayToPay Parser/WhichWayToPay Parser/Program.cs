@@ -78,9 +78,19 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
-			else if (
-				node.ChildNodes[11].InnerText == "Please note the CFA Franc is tied to the Euro.  Please be aware that only currency issued by the Bank of West African States (Banque des Etats de l'Afrique de l'Ouest ) is valid, and that currency issued by the the Bank of Central African States ( Banque des Etats de l'Afrique Centrale) IS NOT VALID." &&
-				node.ChildNodes[11].InnerText == "Please note this currency is tied to the US Dollar at a fixed rate of CI$1 = US$1.25")
+			else if (node.ChildNodes[11].InnerText.StartsWith("Please note the CFA Franc is tied to the Euro.  Please be aware that only currency issued by the Bank of West African States"))
+			{
+				currencyNameShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
+			}
+			else if (node.ChildNodes[11].InnerText.StartsWith("Please note this currency is tied to the US Dollar at a fixed rate of CI$1 = US$1.25"))
+			{
+				currencyNameShift = 0;
+				notesShift = 0;
+				coinsShift = 0;
+			}
+			else if(node.ChildNodes[11].InnerText.StartsWith("Please note this currency is tied to the US Dollar at a fixed rate of CI$1 = US$1.25"))
 			{
 				currencyNameShift = 0;
 				notesShift = 2;
