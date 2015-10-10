@@ -142,6 +142,12 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Finland-currency-EURO-EUR.asp")
+			{
+				currencyNameShift = 0;
+				notesShift = 0;
+				coinsShift = 0;
+			}
 			else if (node.ChildNodes[13 + 2].InnerText.StartsWith("NOTE: "))
 			{
 				notesShift = 2;
