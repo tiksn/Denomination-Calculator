@@ -49,7 +49,7 @@ namespace WhichWayToPay_Parser
 				Console.Title = $"WhichWayToPay Parser { (int)(counter * 100d / currencyNodes.Count) }%";
 				string href = currencyNode.GetAttributeValue("href", string.Empty);
 
-				if(href.StartsWith("http://www.whichwaytopay.com/Costa-Rican-currency-Col"))
+				if (href.StartsWith("http://www.whichwaytopay.com/Costa-Rican-currency-Col"))
 				{
 					href = "http://www.whichwaytopay.com/Costa-Rican-currency-Colón-CRC.asp";
 				}
@@ -94,7 +94,7 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
-			else if(currencyPageURL == "http://www.whichwaytopay.com/Cayman-Islands-currency-Dollar-KYD.asp")
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Cayman-Islands-currency-Dollar-KYD.asp")
 			{
 				currencyNameShift = 0;
 				notesShift = 2;
@@ -242,7 +242,7 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(3);
 				}
-				else if(noteString.EndsWith("chiao/jiao"))
+				else if (noteString.EndsWith("chiao/jiao"))
 				{
 					noteString = noteString.Substring(0, noteString.Length - "chiao/jiao".Length);
 				}
@@ -253,11 +253,18 @@ namespace WhichWayToPay_Parser
 
 				int prefixShift = 0;
 
-				while (true)
+				while (noteString.Length > prefixShift)
 				{
+					//int code = (int)noteString[prefixShift];
+
+					//if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122))
+					//	prefixShift++;
+					//else
+					//	break;
+
 					int code = (int)noteString[prefixShift];
 
-					if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122))
+					if (code < 48 || code > 57)
 						prefixShift++;
 					else
 						break;
