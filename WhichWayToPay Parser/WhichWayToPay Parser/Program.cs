@@ -112,6 +112,12 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/East-Timor-currency-Dollar-USD.asp")
+			{
+				currencyNameShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
+			}
 
 			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText;
 
@@ -244,6 +250,20 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(0, noteString.Length - "Kc".Length);
 				}
+
+				int prefixShift = 0;
+
+				while (true)
+				{
+					int code = (int)noteString[prefixShift];
+
+					if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122))
+						prefixShift++;
+					else
+						break;
+				}
+
+				noteString = noteString.Substring(prefixShift);
 
 				if (noteString.EndsWith("cents"))
 				{
