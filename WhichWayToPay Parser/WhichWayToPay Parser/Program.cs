@@ -148,6 +148,12 @@ namespace WhichWayToPay_Parser
 				notesShift = 0;
 				coinsShift = 0;
 			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Gibraltar-currency-Gibraltar-Pound-GIP.asp")
+			{
+				currencyNameShift = 0;
+				notesShift = 2;
+				coinsShift = 2;
+			}
 			else if (node.ChildNodes[13 + 2].InnerText.StartsWith("NOTE: "))
 			{
 				notesShift = 2;
@@ -211,6 +217,11 @@ namespace WhichWayToPay_Parser
 
 			if (notesOrCoins.EndsWith(". "))
 				notesOrCoins = notesOrCoins.Substring(0, notesOrCoins.Length - 2);
+
+			if (notesOrCoins.EndsWith("for local use only and issued by the Gibraltar government."))
+			{
+				notesOrCoins = notesOrCoins.Substring(0, notesOrCoins.Length - "for local use only and issued by the Gibraltar government.".Length);
+			}
 
 			var noteParts = notesOrCoins.Split(new string[] { ", ", "and" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -290,7 +301,11 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(0, noteString.Length - "Kc".Length);
 				}
-
+				else if (noteString.EndsWith("for local use only and issued by the Gibraltar government."))
+				{
+					noteString = noteString.Substring(0, noteString.Length - "for local use only and issued by the Gibraltar government.".Length);
+				}
+				
 				int prefixShift = 0;
 
 				while (noteString.Length > prefixShift)
