@@ -57,6 +57,14 @@ namespace WhichWayToPay_Parser
 				{
 					href = "http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-Córdoba-NIO.asp";
 				}
+				else if (href.StartsWith("http://www.whichwaytopay.com/Venezuela-currency-Bol"))
+				{
+					href = "http://www.whichwaytopay.com/Venezuela-currency-Bolívar-Fuerte-VEF.asp";
+				}
+				else if (href.StartsWith("http://www.whichwaytopay.com/Vietnam-currency-D"))
+				{
+					href = "http://www.whichwaytopay.com/Vietnam-currency-Dông-VND.asp";
+				}
 
 				var country = ParseCurrencyPage(href);
 
@@ -380,7 +388,12 @@ namespace WhichWayToPay_Parser
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "baiza".Length);
 				}
-				
+				else if (noteString.EndsWith("diram"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "diram".Length);
+				}
+
 				noteString = noteString.Trim();
 
 				if(noteString == "1/2")
