@@ -53,6 +53,10 @@ namespace WhichWayToPay_Parser
 				{
 					href = "http://www.whichwaytopay.com/Costa-Rican-currency-Colón-CRC.asp";
 				}
+				else if(href.StartsWith("http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-C"))
+				{
+					href = "http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-Córdoba-NIO.asp";
+                }
 
 				var country = ParseCurrencyPage(href);
 
@@ -154,6 +158,15 @@ namespace WhichWayToPay_Parser
 				notesShift = 2;
 				coinsShift = 2;
 			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Panama-currency-Balboa-PAB.asp")
+			{
+				return null;
+			}
+			else if (node.ChildNodes[13 + 0].InnerText.StartsWith("NOTE: "))
+			{
+				notesShift = 0;
+				coinsShift = 0;
+			}
 			else if (node.ChildNodes[13 + 2].InnerText.StartsWith("NOTE: "))
 			{
 				notesShift = 2;
@@ -218,9 +231,9 @@ namespace WhichWayToPay_Parser
 			if (notesOrCoins.EndsWith(". "))
 				notesOrCoins = notesOrCoins.Substring(0, notesOrCoins.Length - 2);
 
-			if (notesOrCoins.EndsWith("for local use only and issued by the Gibraltar government."))
+			if (notesOrCoins.EndsWith("for local use only and issued by the Gibraltar government"))
 			{
-				notesOrCoins = notesOrCoins.Substring(0, notesOrCoins.Length - "for local use only and issued by the Gibraltar government.".Length);
+				notesOrCoins = notesOrCoins.Substring(0, notesOrCoins.Length - "for local use only and issued by the Gibraltar government".Length);
 			}
 
 			var noteParts = notesOrCoins.Split(new string[] { ", ", "and" }, StringSplitOptions.RemoveEmptyEntries);
@@ -305,8 +318,12 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(0, noteString.Length - "for local use only and issued by the Gibraltar government.".Length);
 				}
+				else if (noteString.EndsWith("dinars"))
+				{
+					noteString = noteString.Substring(0, noteString.Length - "dinars".Length);
+				}
 				
-				int prefixShift = 0;
+                int prefixShift = 0;
 
 				while (noteString.Length > prefixShift)
 				{
@@ -342,8 +359,32 @@ namespace WhichWayToPay_Parser
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "piastres".Length);
 				}
+				else if (noteString.EndsWith("fils"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "fils".Length);
+				}
+				else if (noteString.EndsWith("tyin"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "tyin".Length);
+				}
+				else if (noteString.EndsWith("baiza"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "baiza".Length);
+				}
+				
+                noteString = noteString.Trim();
 
-				noteString = noteString.Trim();
+				if(noteString == "1/2")
+				{
+					noteString = "0.5";
+				}
+				else if (noteString == "1/4")
+				{
+					noteString = "0.25";
+				}
 
 				Debug.WriteLine(currencyPageURL);
 
