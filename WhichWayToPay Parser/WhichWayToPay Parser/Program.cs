@@ -155,6 +155,8 @@ namespace WhichWayToPay_Parser
 			int notesShift = 0;
 			int coinsShift = 0;
 
+			bool noCoins = false;
+
 			if (node.ChildNodes[9].InnerText == "CURRENCY: ")
 			{
 				currencyNameShift = 2;
@@ -237,6 +239,14 @@ namespace WhichWayToPay_Parser
 			{
 				return null;
 			}
+			else if(currencyPageURL == "http://www.whichwaytopay.com/Myanmar-Burma-currency-Kyat-MMK.asp")
+			{
+				noCoins = true;
+			}
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Cambodia-currency-Riel-KHR.asp")
+			{
+				noCoins = true;
+			}
 			else if (node.ChildNodes[13 + 0].InnerText.StartsWith("NOTE: "))
 			{
 				notesShift = 0;
@@ -297,9 +307,14 @@ namespace WhichWayToPay_Parser
 					coins = coins.Substring(6);
 				}
 
+				if (coins == "not applicable" || coins == "N/A")
+				{
+					noCoins = true;
+				}
+
 				if (coins.StartsWith("cent"))
 				{
-					
+
 				}
 				else if (coins.Contains("$"))
 				{
@@ -309,17 +324,10 @@ namespace WhichWayToPay_Parser
 				}
 				else
 				{
-					coins = coins.Substring(3);
+					//coins = coins.Substring(3);
 				}
 
-				bool noCoins = false;
-
-				if (coins == "not applicable")
-				{
-					noCoins = true;
-				}
-				
-				if(!noCoins)
+				if (!noCoins)
 				{
 					var coinParts = GetNotesOrCoins(coins, result.CurrencyCode, currencyPageURL);
 					result.Coins.AddRange(coinParts);
@@ -346,7 +354,7 @@ namespace WhichWayToPay_Parser
 				notesOrCoins = notesOrCoins.Substring(0, notesOrCoins.Length - "for local use only and issued by the Gibraltar government".Length);
 			}
 
-			var noteParts = notesOrCoins.Split(new string[] { ", ", "and" }, StringSplitOptions.RemoveEmptyEntries);
+			var noteParts = notesOrCoins.Split(new string[] { ", ", "and", "; " }, StringSplitOptions.RemoveEmptyEntries);
 
 			for (int i = 0; i < noteParts.Length; i++)
 			{
@@ -492,6 +500,11 @@ namespace WhichWayToPay_Parser
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "cents".Length);
 				}
+				else if (noteString.EndsWith("rappen/centimes"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "rappen/centimes".Length);
+				}
 				else if (noteString.EndsWith("pfenings"))
 				{
 					noteMultiplier = 0.01;
@@ -546,6 +559,226 @@ namespace WhichWayToPay_Parser
 				{
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "paisa".Length);
+				}
+				else if (noteString.EndsWith("chetrum"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "chetrum".Length);
+				}
+				else if (noteString.EndsWith("thebe"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "thebe".Length);
+				}
+				else if (noteString.EndsWith("stotinki"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "stotinki".Length);
+				}
+				else if (noteString.EndsWith("fen"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "fen".Length);
+				}
+				else if (noteString.EndsWith("lipa"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "lipa".Length);
+				}
+				else if (noteString.EndsWith("haler"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "haler".Length);
+				}
+				else if (noteString.EndsWith("�re"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "�re".Length);
+				}
+				else if (noteString.EndsWith("senti"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "senti".Length);
+				}
+				else if (noteString.EndsWith("pence"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "pence".Length);
+				}
+				else if (noteString.EndsWith("bututs"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "bututs".Length);
+				}
+				else if (noteString.EndsWith("tetri"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "tetri".Length);
+				}
+				else if (noteString.EndsWith("pesewas"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "pesewas".Length);
+				}
+				else if (noteString.EndsWith("paise"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "paise".Length);
+				}
+				else if (noteString.EndsWith("agorot"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "agorot".Length);
+				}
+				else if (noteString.EndsWith("qirsh"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "qirsh".Length);
+				}
+				else if (noteString.EndsWith("santims"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "santims".Length);
+				}
+				else if (noteString.EndsWith("dirhams"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "dirhams".Length);
+				}
+				else if (noteString.EndsWith("centas"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "centas".Length);
+				}
+				else if (noteString.EndsWith("avos"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "avos".Length);
+				}
+				else if (noteString.EndsWith("deni"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "deni".Length);
+				}
+				else if (noteString.EndsWith("tambala"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "tambala".Length);
+				}
+				else if (noteString.EndsWith("sen"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "sen".Length);
+				}
+				else if (noteString.EndsWith("laari"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "laari".Length);
+				}
+				else if (noteString.EndsWith("khoums"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "khoums".Length);
+				}
+				else if (noteString.EndsWith("bani"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "bani".Length);
+				}
+				else if (noteString.EndsWith("toea"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "toea".Length);
+				}
+				else if (noteString.EndsWith("c�ntimos"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "c�ntimos".Length);
+				}
+				else if (noteString.EndsWith("groszy"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "groszy".Length);
+				}
+				else if (noteString.EndsWith("kopeks"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "kopeks".Length);
+				}
+				else if (noteString.EndsWith("sene"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "sene".Length);
+				}
+				else if (noteString.EndsWith("halala"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "halala".Length);
+				}
+				else if (noteString.EndsWith("piasters"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "piasters".Length);
+				}
+				else if (noteString.EndsWith("satang"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "satang".Length);
+				}
+				else if (noteString.EndsWith("seniti"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "seniti".Length);
+				}
+				else if (noteString.EndsWith("millimes"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "millimes".Length);
+				}
+				else if (noteString.EndsWith("New Kurus"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "New Kurus".Length);
+				}
+				else if (noteString.EndsWith("tenge"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "tenge".Length);
+				}
+				else if (noteString.EndsWith("kopiyok"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "kopiyok".Length);
+				}
+				else if (noteString.EndsWith("cent�cimos"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "cent�cimos".Length);
+				}
+				else if (noteString.EndsWith("tiyn"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "tiyn".Length);
+				}
+				else if (noteString.EndsWith("ngwee"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "ngwee".Length);
+				}
+				else if (noteString.EndsWith("thebe"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "thebe".Length);
+				}
+				else if (noteString.EndsWith("thebe"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "thebe".Length);
+				}
+				else if (noteString.EndsWith("thebe"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "thebe".Length);
 				}
 
 				noteString = noteString.Trim();
