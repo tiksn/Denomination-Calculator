@@ -297,9 +297,9 @@ namespace WhichWayToPay_Parser
 					coins = coins.Substring(6);
 				}
 
-				if (!coins.StartsWith("cent"))
+				if (coins.StartsWith("cent"))
 				{
-					coins = coins.Substring(3);
+					
 				}
 				else if (coins.Contains("$"))
 				{
@@ -307,10 +307,23 @@ namespace WhichWayToPay_Parser
 
 					coins = coins.Substring(i + 1);
 				}
+				else
+				{
+					coins = coins.Substring(3);
+				}
 
-				var coinParts = GetNotesOrCoins(coins, result.CurrencyCode, currencyPageURL);
+				bool noCoins = false;
 
-				result.Coins.AddRange(coinParts);
+				if (coins == "not applicable")
+				{
+					noCoins = true;
+				}
+				
+				if(!noCoins)
+				{
+					var coinParts = GetNotesOrCoins(coins, result.CurrencyCode, currencyPageURL);
+					result.Coins.AddRange(coinParts);
+				}
 			}
 
 			return result;
@@ -523,6 +536,16 @@ namespace WhichWayToPay_Parser
 				{
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "centavos".Length);
+				}
+				else if (noteString.EndsWith("gopik"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "gopik".Length);
+				}
+				else if (noteString.EndsWith("paisa"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "paisa".Length);
 				}
 
 				noteString = noteString.Trim();
