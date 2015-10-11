@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace WhichWayToPay_Parser
 {
@@ -23,16 +24,73 @@ namespace WhichWayToPay_Parser
 
 			var currencies = ParseLandingPage(LandingPageURL);
 
-			var currenciesJson = JsonConvert.SerializeObject(currencies);
-
-			Console.WriteLine(currenciesJson);
+			SaveCurrencies(currencies, "Currencies.xml");
 
 			Console.WriteLine("Done.");
-			Console.ReadLine();
+			//Console.ReadLine();
 		}
 
-		private static object ParseLandingPage(string landingPageURL)
+		private static void SaveCurrencies(List<Currency> currencies, string fileName)
 		{
+			var document = new XDocument();
+			var currenciesElement = new XElement("Currencies");
+			document.Add(currenciesElement);
+
+			var currenciesLookup = currencies.ToLookup(item => item.CurrencyCode);
+
+			foreach (var currency in currenciesLookup)
+			{
+				var currencyElement = new XElement("Currency");
+				currenciesElement.Add(currencyElement);
+
+				currencyElement.Add(new XAttribute("Code", currency.Key));
+
+				var countriesElement = new XElement("Countries");
+				currencyElement.Add(countriesElement);
+
+				foreach (var country in currency)
+				{
+					var countryElement = new XElement("Country");
+					countriesElement.Add(countryElement);
+
+					countryElement.Add(new XAttribute("CountryEnglishName", country.CountryName));
+					countryElement.Add(new XAttribute("CurrencyEnglishName", country.CurrencyName));
+
+					var DenominationsElement = new XElement("Denominations");
+					countryElement.Add(DenominationsElement);
+
+					var NotesElement = new XElement("Notes");
+					DenominationsElement.Add(NotesElement);
+
+					foreach (var note in country.Notes)
+					{
+						var noteElement = new XElement("Note");
+						NotesElement.Add(noteElement);
+
+						noteElement.Add(new XAttribute("Value", note.ToString()));
+					}
+
+					var CoinsElement = new XElement("Coins");
+					DenominationsElement.Add(CoinsElement);
+
+					foreach (var coin in country.Coins)
+					{
+						var coinElement = new XElement("Coin");
+						CoinsElement.Add(coinElement);
+
+						coinElement.Add(new XAttribute("Value", coin.ToString()));
+					}
+
+				}
+			}
+			//currenciesLookup
+			document.Save(fileName);
+		}
+
+		private static List<Currency> ParseLandingPage(string landingPageURL)
+		{
+			var result = new List<Currency>();
+
 			Console.WriteLine("Parsing: {0}", landingPageURL);
 			var httpClient = new HttpClient();
 			var document = new HtmlDocument();
@@ -53,7 +111,7 @@ namespace WhichWayToPay_Parser
 				{
 					href = "http://www.whichwaytopay.com/Costa-Rican-currency-Colón-CRC.asp";
 				}
-				else if(href.StartsWith("http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-C"))
+				else if (href.StartsWith("http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-C"))
 				{
 					href = "http://www.whichwaytopay.com/Nicaragua-currency-Nicaraguan-Gold-Córdoba-NIO.asp";
 				}
@@ -68,10 +126,13 @@ namespace WhichWayToPay_Parser
 
 				var country = ParseCurrencyPage(href);
 
-				Console.WriteLine(JsonConvert.SerializeObject(country));
+				if (country != null)
+				{
+					result.Add(country);
+				}
 			}
 
-			return null;
+			return result;
 		}
 
 		private static Currency ParseCurrencyPage(string currencyPageURL)
@@ -87,7 +148,7 @@ namespace WhichWayToPay_Parser
 			var node = document.DocumentNode.ChildNodes[3].ChildNodes[3].ChildNodes[1].ChildNodes[5].ChildNodes[1].ChildNodes[3].ChildNodes[1];
 
 			var countryElement = node.ChildNodes[1];
-			result.CountryName = countryElement.InnerText;
+			result.CountryName = countryElement.InnerText.Trim();
 			result.CurrencyCode = node.ChildNodes[3].InnerText.Substring(1, 3);
 
 			int currencyNameShift = 0;
@@ -191,8 +252,21 @@ namespace WhichWayToPay_Parser
 				notesShift = 4;
 				coinsShift = 4;
 			}
-			
-			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText;
+
+			if (node.ChildNodes[15 + 0].InnerText.StartsWith("COIN: "))
+			{
+				coinsShift = 0;
+			}
+			else if (node.ChildNodes[15 + 2].InnerText.StartsWith("COIN: "))
+			{
+				coinsShift = 2;
+			}
+			else if (node.ChildNodes[15 + 4].InnerText.StartsWith("COIN: "))
+			{
+				coinsShift = 4;
+			}
+
+			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText.Trim();
 
 			var notes = node.ChildNodes[13 + notesShift].InnerText;
 
@@ -223,11 +297,12 @@ namespace WhichWayToPay_Parser
 					coins = coins.Substring(6);
 				}
 
-				coins = coins.Substring(3);
+				if (!coins.StartsWith("cent"))
+					coins = coins.Substring(3);
 
-				//var coinParts = GetNotesOrCoins(coins);
+				var coinParts = GetNotesOrCoins(coins, result.CurrencyCode, currencyPageURL);
 
-				//result.Coins.AddRange(coinParts);
+				result.Coins.AddRange(coinParts);
 			}
 
 			return result;
@@ -251,6 +326,39 @@ namespace WhichWayToPay_Parser
 			}
 
 			var noteParts = notesOrCoins.Split(new string[] { ", ", "and" }, StringSplitOptions.RemoveEmptyEntries);
+
+			for (int i = 0; i < noteParts.Length; i++)
+			{
+				switch (noteParts[i].Trim())
+				{
+					case "cent":
+						noteParts[i] = "0.01";
+						break;
+
+					case "nickel":
+						noteParts[i] = "0.05";
+						break;
+
+					case "dime":
+						noteParts[i] = "0.1";
+						break;
+
+					case "quarter":
+						noteParts[i] = "0.25";
+						break;
+
+					case "half dollar":
+						noteParts[i] = "0.5";
+						break;
+
+					case "dollar":
+						noteParts[i] = "1";
+						break;
+
+					default:
+						break;
+				}
+			}
 
 			foreach (var notePart in noteParts)
 			{
@@ -336,7 +444,7 @@ namespace WhichWayToPay_Parser
 				{
 					noteString = noteString.Substring(0, noteString.Length - "dinars".Length);
 				}
-				
+
 				int prefixShift = 0;
 
 				while (noteString.Length > prefixShift)
@@ -368,7 +476,7 @@ namespace WhichWayToPay_Parser
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "pfenings".Length);
 				}
-				else if(noteString.EndsWith("piastres"))
+				else if (noteString.EndsWith("piastres"))
 				{
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "piastres".Length);
@@ -393,10 +501,20 @@ namespace WhichWayToPay_Parser
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "diram".Length);
 				}
-
+				else if (noteString.EndsWith("centimes"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "centimes".Length);
+				}
+				else if (noteString.EndsWith("centimos"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "centimos".Length);
+				}
+				
 				noteString = noteString.Trim();
 
-				if(noteString == "1/2")
+				if (noteString == "1/2")
 				{
 					noteString = "0.5";
 				}
