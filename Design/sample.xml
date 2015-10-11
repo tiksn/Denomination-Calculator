@@ -1,24 +1,25 @@
 <Currencies>
 	<Currency Code="USD">
 		<Countries>
-			<Country Code="US" />
+			<Country Code="US" CurrencyEnglishName="United States Dollar">
+				<Denominations>
+					<Notes>
+						<Note Value="100" />
+						<Note Value="50" />
+						<Note Value="20" />
+						<Note Value="10" />
+						<Note Value="5" />
+						<Note Value="1" />
+					</Notes>
+					<Coins>
+						<Coin Value="0.5" />
+						<Coin Value="0.2" />
+						<Coin Value="0.1" />
+						<Coin Value="0.02" />
+						<Coin Value="0.01" />
+					</Coins>
+				</Denominations>
+			</Country>
 		</Countries>
-		<Denominations>
-			<Notes>
-				<Note Value="100" />
-				<Note Value="50" />
-				<Note Value="20" />
-				<Note Value="10" />
-				<Note Value="5" />
-				<Note Value="1" />
-			</Notes>
-			<Coins>
-				<Coin Value="0.5" />
-				<Coin Value="0.2" />
-				<Coin Value="0.1" />
-				<Coin Value="0.02" />
-				<Coin Value="0.01" />
-			</Coins>
-		</Denominations>
 	</Currency>
 </Currencies>

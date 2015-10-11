@@ -239,7 +239,7 @@ namespace WhichWayToPay_Parser
 			{
 				return null;
 			}
-			else if(currencyPageURL == "http://www.whichwaytopay.com/Myanmar-Burma-currency-Kyat-MMK.asp")
+			else if (currencyPageURL == "http://www.whichwaytopay.com/Myanmar-Burma-currency-Kyat-MMK.asp")
 			{
 				noCoins = true;
 			}
@@ -277,6 +277,20 @@ namespace WhichWayToPay_Parser
 			}
 
 			result.CurrencyName = node.ChildNodes[9 + currencyNameShift].InnerText.Trim();
+
+			if (result.CurrencyName.Contains("Symbol"))
+			{
+				var i = result.CurrencyName.IndexOf("Symbol");
+
+				result.CurrencyName = result.CurrencyName.Substring(0, i);
+
+				result.CurrencyName = result.CurrencyName.Trim();
+			}
+
+			if(result.CurrencyName.EndsWith(","))
+			{
+				result.CurrencyName = result.CurrencyName.Substring(0, result.CurrencyName.Length - 1);
+			}
 
 			var notes = node.ChildNodes[13 + notesShift].InnerText;
 
