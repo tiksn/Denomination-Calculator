@@ -298,7 +298,15 @@ namespace WhichWayToPay_Parser
 				}
 
 				if (!coins.StartsWith("cent"))
+				{
 					coins = coins.Substring(3);
+				}
+				else if (coins.Contains("$"))
+				{
+					var i = coins.IndexOf("$");
+
+					coins = coins.Substring(i + 1);
+				}
 
 				var coinParts = GetNotesOrCoins(coins, result.CurrencyCode, currencyPageURL);
 
@@ -511,7 +519,12 @@ namespace WhichWayToPay_Parser
 					noteMultiplier = 0.01;
 					noteString = noteString.Substring(0, noteString.Length - "centimos".Length);
 				}
-				
+				else if (noteString.EndsWith("centavos"))
+				{
+					noteMultiplier = 0.01;
+					noteString = noteString.Substring(0, noteString.Length - "centavos".Length);
+				}
+
 				noteString = noteString.Trim();
 
 				if (noteString == "1/2")
