@@ -53,6 +53,7 @@ namespace WhichWayToPay_Parser
 					var countryElement = new XElement("Country");
 					countriesElement.Add(countryElement);
 
+					countryElement.Add(new XAttribute("ID", Guid.NewGuid()));
 					countryElement.Add(new XAttribute("CountryEnglishName", country.CountryName));
 					countryElement.Add(new XAttribute("CurrencyEnglishName", country.CurrencyName));
 
