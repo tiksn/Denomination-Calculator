@@ -1,8 +1,11 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Data.Entity;
+using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -24,13 +27,26 @@ namespace WhichWayToPay_Parser
 
 			var currencies = ParseLandingPage(LandingPageURL);
 
-			SaveCurrencies(currencies, "Currencies.xml");
+			SaveCurrenciesAsXml(currencies, "Currencies.xml");
+			SaveCurrenciesAsSqlite(currencies, "Currencies.db");
 
 			Console.WriteLine("Done.");
 			//Console.ReadLine();
 		}
 
-		private static void SaveCurrencies(List<Currency> currencies, string fileName)
+		private static void SaveCurrenciesAsSqlite(List<Currency> currencies, string databaseFile)
+		{
+			//File.Delete(databaseFile);
+			var optionBuilder = new DbContextOptionsBuilder();
+			optionBuilder.UseSqlite($"Data Source={databaseFile};Version=3;");
+			var context = new CurrenciesContext(optionBuilder.Options);
+			context.Database.EnsureDeleted();
+			context.SaveChanges();
+			context.Database.EnsureCreated();
+			context.SaveChanges();
+		}
+
+		private static void SaveCurrenciesAsXml(List<Currency> currencies, string fileName)
 		{
 			var document = new XDocument();
 			var currenciesElement = new XElement("Currencies");
